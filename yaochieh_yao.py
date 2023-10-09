@@ -99,8 +99,8 @@ def write_fasta(filename, header_orf_dict):
     """
     with open(filename, "w") as w:
         for header, orfs in header_orf_dict.items():
-            for orf in orfs:
-                w.write(f">{header}\n{orf}\n")
+            for idx, orf in enumerate(orfs):
+                w.write(f">{header}_ORF{idx+1}\n{orf}\n")
     return filename
 
 
