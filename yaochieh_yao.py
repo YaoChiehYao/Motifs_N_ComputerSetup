@@ -8,20 +8,6 @@ position. After that, find all possible open reading frames that end
 with a stop codon, write a new fasta file, and evaluate the orfs in
 the research question.
 """
-
-
-def read_fasta(fasta_file):
-    seqs = {}
-    with open(fasta_file, 'r') as f:
-        for line in f:
-            if line.startswith('>'):
-                header = line.replace('>', '').replace('|test', '').strip()
-            else:
-                if header not in seqs:
-                    seqs[header] = ''
-                seqs[header] += line.strip()
-    return seqs
-
 def score_motif(motif):
     """
     This function takes in a 13bp sequence and returns the score
@@ -87,6 +73,18 @@ def find_ORFs(sequence):
             orfs.append(sequence[0:i+3])
 
     return orfs
+
+def read_fasta(fasta_file):
+    seqs = {}
+    with open(fasta_file, 'r') as f:
+        for line in f:
+            if line.startswith('>'):
+                header = line.replace('>', '').replace('|test', '').strip()
+            else:
+                if header not in seqs:
+                    seqs[header] = ''
+                seqs[header] += line.strip()
+    return seqs
 
 def write_fasta(filename, header_orf_dict):
     """
