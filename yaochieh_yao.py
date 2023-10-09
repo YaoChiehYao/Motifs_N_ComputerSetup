@@ -103,14 +103,23 @@ def write_fasta(filename, header_orf_dict):
                 w.write(f">{header}_ORF{idx+1}\n{orf}\n")
     return filename
 
-
-if __name__ == '__main__':
-    """Main Business Logic"""
-    fasta_seqs = read_fasta('spaceSeq.fa')
+def identify_ORFs(in_file, out_file):
+    """
+    Takes as input a file with contigs outputs a file with a
+    FASTA sequence of contigs with labels which include what
+    contig they came from (ex: sequence 1_ORF1) 
+    """
+    fasta_seqs = read_fasta(in_file)
     headers = [header for header in fasta_seqs.keys()]
     sequences = [seq for seq in fasta_seqs.values()]
     header_orf_dict = {}
     for i in range(len(sequences)):
         start_pos, len_orf, orfs = scanSeq(sequences[i])
         header_orf_dict[headers[i]] = orfs
-    write_fasta('output.fa', header_orf_dict)
+
+    return write_fasta(out_file, header_orf_dict)
+
+
+if __name__ == '__main__':
+    """Main Business Logic"""
+    identify_ORFs('spaceSeq.fa', 'output.fa')
