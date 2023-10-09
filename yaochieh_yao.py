@@ -22,7 +22,6 @@ def read_fasta(fasta_file):
                 seqs[header] += line.strip()
     return seqs
 
-
 def score_motif(motif):
     """
     This function takes in a 13bp sequence and returns the score
@@ -44,24 +43,6 @@ def score_motif(motif):
             scores.append(0)
 
     return sum(scores)
-
-
-def find_ORFs(sequence):
-    """
-    This function continues with passed motifs to work on using
-    the starting positions to find possible orfs with a stop
-    codon in the sequence.
-    """
-    stop_codons = ['TAA', 'TAG', 'TGA']
-    orfs = []
-    for i in range(0, len(sequence)-2, 3):
-        codon = sequence[i:i+3]
-
-        if codon in stop_codons:
-            orfs.append(sequence[0:i+3])
-
-    return orfs
-
 
 def scanSeq(sequence):
     """
@@ -91,6 +72,21 @@ def scanSeq(sequence):
 
     return start_pos, len_orf, orfs
 
+def find_ORFs(sequence):
+    """
+    This function continues with passed motifs to work on using
+    the starting positions to find possible orfs with a stop
+    codon in the sequence.
+    """
+    stop_codons = ['TAA', 'TAG', 'TGA']
+    orfs = []
+    for i in range(0, len(sequence)-2, 3):
+        codon = sequence[i:i+3]
+
+        if codon in stop_codons:
+            orfs.append(sequence[0:i+3])
+
+    return orfs
 
 def write_fasta(filename, header_orf_dict):
     """
